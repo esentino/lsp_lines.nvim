@@ -183,12 +183,15 @@ M.setup = function()
             end
           end
         end
-
-        vim.api.nvim_buf_set_extmark(bufnr, virt_lines_ns, lnum, 0, {
-          id = lnum + 1, -- Must be positive; +1 covers line=0.
-          virt_lines = virt_lines,
-          virt_lines_above = false,
-        })
+	if vim.api.nvim_buf_is_valid(bufnr) then
+          if vim.api.nvim_buf_line_count(bufnr) > 0 then
+	    vim.api.nvim_buf_set_extmark(bufnr, virt_lines_ns, lnum, 0, {
+              id = lnum + 1, -- Must be positive; +1 covers line=0.
+              virt_lines = virt_lines,
+              virt_lines_above = false,
+            })
+	  end
+	end
       end
     end,
     ---@param namespace number
